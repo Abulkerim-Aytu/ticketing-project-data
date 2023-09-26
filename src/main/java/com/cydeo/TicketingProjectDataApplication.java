@@ -1,7 +1,9 @@
 package com.cydeo;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.ui.ModelMap;
 
 @SpringBootApplication // this includes @Configuration
@@ -17,6 +19,10 @@ public class TicketingProjectDataApplication {
     // Write a method which return the object that you trying to add in the container
     // Annotate this method with @Bean
 
+    @Bean
+    public ModelMapper mapper(){
+        return new ModelMapper();
+    }
 
 
 
