@@ -2,8 +2,6 @@ package com.cydeo.controller;
 
 import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.UserDTO;
-import com.cydeo.service.ProjectService;
-import com.cydeo.service.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +13,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/project")
 public class ProjectController {
+/*
 
     private final UserService userService;
     private final ProjectService projectService;
@@ -112,4 +111,5 @@ public class ProjectController {
         return "redirect:/project/manager/project-status";
     }
 
+*/
 }
