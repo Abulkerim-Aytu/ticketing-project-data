@@ -56,6 +56,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserDTO> listAllByRole(String role) {
+        return null;
+    }
+
+    @Override
     public UserDTO update(UserDTO user) {
         // Find current user
         User user1 = userRepository.findByUserName(user.getUserName()); // has id
