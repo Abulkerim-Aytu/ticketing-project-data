@@ -1,11 +1,9 @@
 package com.cydeo.entity;
 
 import lombok.*;
+import org.springframework.stereotype.Component;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
@@ -21,9 +19,29 @@ public class BaseEntity {
 
     private Boolean isDeleted = false;
 
+    @Column(nullable = false,updatable = false)
     private LocalDateTime insertDateTime;
+    @Column(nullable = false,updatable = false)
     private Long insertUserId;
+    @Column(nullable = false,updatable = false)
     private LocalDateTime lastUpdateDateTime;
+    @Column(nullable = false,updatable = false)
     private Long lastUpdateUserId;
+
+//    This method needs to be executed, whenever we created the Object
+    @PrePersist
+    private void onPrePersist(){
+        this.insertDateTime = LocalDateTime.now();
+        this.lastUpdateDateTime=LocalDateTime.now();
+        this.insertUserId=1L;
+        this.lastUpdateUserId=1L;
+    }
+
+//    this one needs to executed, whenever we update the object
+    @PreUpdate
+    private void onPreUpdate(){
+        this.lastUpdateDateTime=LocalDateTime.now();
+        this.lastUpdateUserId=1L;
+    }
 
 }
