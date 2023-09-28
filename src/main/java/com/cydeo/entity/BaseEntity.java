@@ -19,6 +19,7 @@ public class BaseEntity {
 
     private Boolean isDeleted = false;
 
+//    these columns use case is : when ever we try to update something ignore these fields,just keep the data for the creation time, do not touch when it is updating.
     @Column(nullable = false,updatable = false)
     private LocalDateTime insertDateTime;
     @Column(nullable = false,updatable = false)
