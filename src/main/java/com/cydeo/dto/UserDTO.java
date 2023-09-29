@@ -12,6 +12,16 @@ import javax.validation.constraints.*;
 @AllArgsConstructor
 public class UserDTO {
 
+    private Long id;
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
     @NotBlank
     @Size(max = 15, min = 2)
     private String firstName;

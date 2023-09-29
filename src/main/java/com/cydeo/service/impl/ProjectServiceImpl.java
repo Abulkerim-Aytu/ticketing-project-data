@@ -33,7 +33,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void save(ProjectDTO dto) {
-
+    projectRepository.save(projectMapper.convertToEntity(dto));
     }
 
     @Override
