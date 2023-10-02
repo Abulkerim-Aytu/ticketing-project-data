@@ -10,4 +10,9 @@ public interface TaskService {
     void save(TaskDTO dto);
     void delete(Long id);
     void update(TaskDTO dto);
+
+    int totalNonCompletedTask(String projectCode);
+
+    int totalCompletedTask(String projectCode);
+
 }
