@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface TaskService {
     List<TaskDTO> listAllTasks();
-    TaskDTO certainTask(Long id);
+    TaskDTO findById(Long id);
     void save(TaskDTO dto);
     void delete(Long id);
     void update(TaskDTO dto);
