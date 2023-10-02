@@ -1,12 +1,14 @@
 package com.cydeo.service.impl;
 
 import com.cydeo.dto.TaskDTO;
+import com.cydeo.entity.Task;
 import com.cydeo.mapper.TaskMapper;
 import com.cydeo.repository.TaskRepository;
 import com.cydeo.service.TaskService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class TaskServiceImpl implements TaskService {
@@ -21,7 +23,8 @@ public class TaskServiceImpl implements TaskService {
 
     @Override
     public List<TaskDTO> listAllTasks() {
-        return null;
+        List<Task> tasks = taskRepository.findAll();
+        return tasks.stream().map(taskMapper::convertToDto).collect(Collectors.toList());
     }
 
     @Override
