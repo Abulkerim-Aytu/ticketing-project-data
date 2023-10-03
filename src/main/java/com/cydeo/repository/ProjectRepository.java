@@ -2,6 +2,7 @@
 
 import com.cydeo.entity.Project;
 import com.cydeo.entity.User;
+import com.cydeo.enums.Status;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -10,4 +11,5 @@ import java.util.List;
 
     Project findByProjectCode(String code);
     List<Project> findAllByAssignedManager(User manager);
+    List<Project> findAllByStatusIsNotAndAssignedManager(Status status,User assignedManager);
 }

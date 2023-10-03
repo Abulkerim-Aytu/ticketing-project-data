@@ -1,9 +1,12 @@
 package com.cydeo.service.impl;
 
+import com.cydeo.dto.ProjectDTO;
 import com.cydeo.dto.UserDTO;
 import com.cydeo.entity.User;
 import com.cydeo.mapper.UserMapper;
 import com.cydeo.repository.UserRepository;
+import com.cydeo.service.ProjectService;
+import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -16,10 +19,14 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final ProjectService projectService;
+    private final TaskService taskService;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, ProjectService projectService, TaskService taskService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
+        this.projectService = projectService;
+        this.taskService = taskService;
     }
 
     @Override
@@ -44,17 +51,6 @@ public class UserServiceImpl implements UserService {
     userRepository.deleteByUserName(username);
     }
 
-
-    @Override
-    public void delete(String username) {
-    // Go to db and get that user with user…name
-    // Change the isDeleted field to true
-    // Save the object in the db
-        User user = userRepository.findByUserName(username);
-        user.setIsDeleted(true);
-        userRepository.save(user);
-    }
-
     @Override
     public List<UserDTO> listAllByRole(String role) {
         List<User>users = userRepository.findByRoleDescriptionIgnoreCase(role);
@@ -74,4 +70,35 @@ public class UserServiceImpl implements UserService {
 
         return findByUserName(user.getUserName());
     }
+
+    @Override
+    public void delete(String username) {
+    // Go to db and get that user with user…name
+    // Change the isDeleted field to true
+    // Save the object in the db
+        User user = userRepository.findByUserName(username);
+
+        if (checkIfUserCanBeDeleted(user)) {
+            user.setIsDeleted(true);
+            userRepository.save(user);
+        }
+    }
+
+    // here we use private method because we use this method only in this class.
+    private boolean checkIfUserCanBeDeleted(User user){
+        switch (user.getRole().getDescription()){
+            case "Manager":
+            List<ProjectDTO> projectDTOList=projectService.listAllNonCompetedByAssignedManager(userMapper.convertToDto(user));
+            return projectDTOList.size() ==0;
+
+            case "Employee":
+            List<ProjectDTO> taskDTOList=taskService.listAllNonCompetedByAssignedEmployee(userMapper.convertToDto(user));
+            return taskDTOList.size() ==0;
+
+            default:
+                return true;
+        }
+
+    }
+
 }

@@ -122,4 +122,11 @@ public class TaskServiceImpl implements TaskService {
         User loggedInUser = userMapper.convertToEntity(userService.findByUserName("john@employee.com"));
         List<Task> tasks = taskRepository.findAllByTaskStatusAndAssignedEmployee(status,loggedInUser);
         return tasks.stream().map(taskMapper::convertToDto).collect(Collectors.toList());    }
+
+    @Override
+    public List<TaskDTO> listAllNonCompetedByAssignedEmployee(UserDTO assignedEmployee) {
+        return null;
+    }
+
+
 }
