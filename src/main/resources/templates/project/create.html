@@ -171,9 +171,9 @@
                                                 <td th:text="${project.assignedManager.firstName + ' ' + project.assignedManager.lastName}"></td>
                                                 <td th:text="${project.projectStatus.value}"></td>
                                                 <td>
-                                                    <a th:href="@{/project/update/{id}(id=${project.projectCode})}"><button type="button" class="btn btn-warning rounded-0">Update</button></a>
+                                                    <a th:if="${project.projectStatus.value != 'Completed'}"  th:href="@{/project/update/{id}(id=${project.projectCode})}"><button type="button" class="btn btn-warning rounded-0">Update</button></a>
                                                     <a th:href="@{/project/delete/{id}(id=${project.projectCode})}"><button type="button" class="btn btn-danger rounded-0">Delete</button></a>
-                                                    <a th:href="@{/project/complete/{id}(id=${project.projectCode})}"><button type="button" class="btn btn-info rounded-0">Complete</button></a>
+                                                    <a th:if="${project.projectStatus.value != 'Completed'}" th:href="@{/project/complete/{id}(id=${project.projectCode})}"><button type="button" class="btn btn-info rounded-0">Complete</button></a>
                                                 </td>
                                             </tr>
                                             </tbody>

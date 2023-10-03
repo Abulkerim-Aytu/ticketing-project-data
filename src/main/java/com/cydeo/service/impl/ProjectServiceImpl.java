@@ -73,14 +73,25 @@ public class ProjectServiceImpl implements ProjectService {
     public void delete(String code) {
         Project project = projectRepository.findByProjectCode(code);
         project.setIsDeleted(true);
+
+        project.setProjectCode(project.getProjectCode() + "-" + project.getId());
+        //harold@manager.com-1 because of the change of the userName after deletion if the same user want to use same username just like "harold@manager.com" he/she can use without a problem.
+
         projectRepository.save(project);
+
+        // Explain the code: why we use the projectMapper inside the taskService?
+        // Here we just deleted the tasks that related with project.
+        taskService.deleteByProject(projectMapper.convertToDto(project));
     }
 
     @Override
     public void complete(String projectCode) {
-    Project project = projectRepository.findByProjectCode(projectCode);
-    project.setProjectStatus(Status.COMPLETE);
-    projectRepository.save(project);
+        Project project = projectRepository.findByProjectCode(projectCode);
+        project.setProjectStatus(Status.COMPLETE);
+        projectRepository.save(project);
+
+        // Here we just make tasks status to "complete" that related with project.
+        taskService.completeByProject(projectMapper.convertToDto(project));
 
     }
 
@@ -97,6 +108,13 @@ public class ProjectServiceImpl implements ProjectService {
                 obj.setUnfinishedTaskCounts(taskService.totalCompletedTask(project.getProjectCode()));
         return obj;
     }).collect(Collectors.toList());
+    }
+
+    @Override
+    public List<ProjectDTO> listAllNonCompletedByAssignedManager(UserDTO assignedManager) {
+        User user = userMapper.convertToEntity(assignedManager);
+        List<Project> projects = projectRepository.findAllByProjectStatusIsNotAndAssignedManager(Status.COMPLETE, user);
+        return projects.stream().map(projectMapper::convertToDto).collect(Collectors.toList());
     }
 
 
