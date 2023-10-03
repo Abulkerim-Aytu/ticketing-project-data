@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table(name = "users")
 //@Where(clause = "is_deleted=false")
-// we comment this because of some bugs that related with COMPLETE button in the
+// we comment this because of some bugs that related with COMPLETE button in the project/create page.
 public class User extends BaseEntity {
 
     private String firstName;

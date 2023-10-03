@@ -34,13 +34,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> listAllUsers() {
-      List<User> userList = userRepository.findAll(Sort.by("firstName"));
+      List<User> userList = userRepository.findAllByIsDeletedOrderByFirstNameDesc(false);
         return userList.stream().map(userMapper::convertToDto).collect(Collectors.toList());
     }
 
     @Override
     public UserDTO findByUserName(String username) {
-        return userMapper.convertToDto(userRepository.findByUserName(username));
+        return userMapper.convertToDto(userRepository.findByUserNameAndIsDeleted(username,false));
     }
 
     @Override
@@ -57,14 +57,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public List<UserDTO> listAllByRole(String role) {
-        List<User>users = userRepository.findByRoleDescriptionIgnoreCase(role);
+        List<User>users = userRepository.findByRoleDescriptionIgnoreCaseAndIsDeleted(role,false);
         return users.stream().map(userMapper::convertToDto).collect(Collectors.toList());
     }
 
     @Override
     public UserDTO update(UserDTO user) {
         // Find current user
-        User user1 = userRepository.findByUserName(user.getUserName()); // has id
+        User user1 = userRepository.findByUserNameAndIsDeleted(user.getUserName(),false); // has id
         // Map update user dto to entity object
         User convertedUser = userMapper.convertToEntity(user); // has id?
         // Set id to the converted object
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
     // Go to db and get that user with user…name
     // Change the isDeleted field to true
     // Save the object in the db
-        User user = userRepository.findByUserName(username);
+        User user = userRepository.findByUserNameAndIsDeleted(username,false);
 
         if (checkIfUserCanBeDeleted(user)) {
             user.setIsDeleted(true);
