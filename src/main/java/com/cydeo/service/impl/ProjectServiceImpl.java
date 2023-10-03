@@ -75,6 +75,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setIsDeleted(true);
 
         project.setProjectCode(project.getProjectCode() + "-" + project.getId());
+        //harold@manager.com-1 because of the change of the userName after deletion if the same user want to use same username just like "harold@manager.com" he/she can use without a problem.
 
         projectRepository.save(project);
 
@@ -111,8 +112,8 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public List<ProjectDTO> listAllNonCompletedByAssignedManager(UserDTO assignedManager) {
-        List<Project> projects = projectRepository
-                .findAllByProjectStatusIsNotAndAssignedManager(Status.COMPLETE, userMapper.convertToEntity(assignedManager));
+        User user = userMapper.convertToEntity(assignedManager);
+        List<Project> projects = projectRepository.findAllByProjectStatusIsNotAndAssignedManager(Status.COMPLETE, user);
         return projects.stream().map(projectMapper::convertToDto).collect(Collectors.toList());
     }
 

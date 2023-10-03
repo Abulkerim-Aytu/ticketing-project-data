@@ -49,6 +49,7 @@ public class UserServiceImpl implements UserService {
       userRepository.save(userMapper.convertToEntity(user));
     }
 
+    // This delete is for hard deleted
     @Override
     public void deleteByUserName(String username) {
     userRepository.deleteByUserName(username);
@@ -74,6 +75,7 @@ public class UserServiceImpl implements UserService {
         return findByUserName(user.getUserName());
     }
 
+    // This delete is for soft deleted
     @Override
     public void delete(String username) {
     // Go to db and get that user with user…name
@@ -83,6 +85,8 @@ public class UserServiceImpl implements UserService {
 
         if (checkIfUserCanBeDeleted(user)) {
             user.setIsDeleted(true);
+            user.setUserName(user.getUserName() + "-" + user.getId());
+            //harold@manager.com-1 because of the change of the userName after deletion if the same user want to use same username just like "harold@manager.com" he/she can use without a problem.
             userRepository.save(user);
         }
     }
