@@ -1,7 +1,9 @@
 package com.cydeo.service.impl;
 
 import com.cydeo.dto.ProjectDTO;
+import com.cydeo.dto.TaskDTO;
 import com.cydeo.dto.UserDTO;
+import com.cydeo.entity.Task;
 import com.cydeo.entity.User;
 import com.cydeo.mapper.UserMapper;
 import com.cydeo.repository.UserRepository;
@@ -92,7 +94,7 @@ public class UserServiceImpl implements UserService {
             return projectDTOList.size() ==0;
 
             case "Employee":
-            List<ProjectDTO> taskDTOList=taskService.listAllNonCompetedByAssignedEmployee(userMapper.convertToDto(user));
+            List<TaskDTO> taskDTOList=taskService.listAllNonCompetedByAssignedEmployee(userMapper.convertToDto(user));
             return taskDTOList.size() ==0;
 
             default:
