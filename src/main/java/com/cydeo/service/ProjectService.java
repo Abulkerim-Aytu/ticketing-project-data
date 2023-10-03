@@ -16,7 +16,6 @@ public interface ProjectService {
 
     List<ProjectDTO> listAllProjectDetails();
 
-    List<ProjectDTO> listAllNonCompetedByAssignedManager(UserDTO assignedManager);
-
+    List<ProjectDTO> listAllNonCompletedByAssignedManager(UserDTO assignedManager);
 
 }

@@ -11,5 +11,5 @@ import java.util.List;
 
     Project findByProjectCode(String code);
     List<Project> findAllByAssignedManager(User manager);
-    List<Project> findAllByStatusIsNotAndAssignedManager(Status status,User assignedManager);
+    List<Project> findAllByProjectStatusIsNotAndAssignedManager(Status status,User assignedManager);
 }

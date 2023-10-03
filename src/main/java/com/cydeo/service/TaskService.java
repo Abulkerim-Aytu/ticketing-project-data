@@ -27,5 +27,5 @@ public interface TaskService {
 
     List<TaskDTO>listAllTasksByStatus(Status status);
 
-    List<TaskDTO>listAllNonCompetedByAssignedEmployee(UserDTO assignedEmployee);
+    List<TaskDTO>listAllNonCompletedByAssignedEmployee(UserDTO assignedEmployee);
 }

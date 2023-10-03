@@ -10,6 +10,7 @@ import com.cydeo.repository.UserRepository;
 import com.cydeo.service.ProjectService;
 import com.cydeo.service.TaskService;
 import com.cydeo.service.UserService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class UserServiceImpl implements UserService {
     private final ProjectService projectService;
     private final TaskService taskService;
 
-    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, ProjectService projectService, TaskService taskService) {
+    public UserServiceImpl(UserRepository userRepository, UserMapper userMapper, @Lazy ProjectService projectService,@Lazy TaskService taskService) {
         this.userRepository = userRepository;
         this.userMapper = userMapper;
         this.projectService = projectService;
@@ -90,11 +91,11 @@ public class UserServiceImpl implements UserService {
     private boolean checkIfUserCanBeDeleted(User user){
         switch (user.getRole().getDescription()){
             case "Manager":
-            List<ProjectDTO> projectDTOList=projectService.listAllNonCompetedByAssignedManager(userMapper.convertToDto(user));
+            List<ProjectDTO> projectDTOList=projectService.listAllNonCompletedByAssignedManager(userMapper.convertToDto(user));
             return projectDTOList.size() ==0;
 
             case "Employee":
-            List<TaskDTO> taskDTOList=taskService.listAllNonCompetedByAssignedEmployee(userMapper.convertToDto(user));
+            List<TaskDTO> taskDTOList=taskService.listAllNonCompletedByAssignedEmployee(userMapper.convertToDto(user));
             return taskDTOList.size() ==0;
 
             default:
