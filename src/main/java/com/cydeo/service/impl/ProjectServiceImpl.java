@@ -79,14 +79,18 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepository.save(project);
 
         // Explain the code: why we use the projectMapper inside the taskService?
+        // Here we just deleted the tasks that related with project.
         taskService.deleteByProject(projectMapper.convertToDto(project));
     }
 
     @Override
     public void complete(String projectCode) {
-    Project project = projectRepository.findByProjectCode(projectCode);
-    project.setProjectStatus(Status.COMPLETE);
-    projectRepository.save(project);
+        Project project = projectRepository.findByProjectCode(projectCode);
+        project.setProjectStatus(Status.COMPLETE);
+        projectRepository.save(project);
+
+        // Here we just make tasks status to "complete" that related with project.
+        taskService.completeByProject(projectMapper.convertToDto(project));
 
     }
 
